@@ -131,10 +131,13 @@ public abstract class AbstractKubernetesEnableDisableManifestOperation
 
     if (target == null) {
       getTask()
-        .updateStatus(
-          OP_NAME,
-          WordUtils.capitalize("Skipping " + getVerbName()) + " operation for " + coordinates + " because target manifest no longer exists");
-    return null;
+          .updateStatus(
+              OP_NAME,
+              WordUtils.capitalize("Skipping " + getVerbName())
+                  + " operation for "
+                  + coordinates
+                  + " because target manifest no longer exists");
+      return null;
     }
 
     determineLoadBalancers(target).forEach(l -> op(l, target));
