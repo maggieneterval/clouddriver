@@ -128,6 +128,15 @@ public abstract class AbstractKubernetesEnableDisableManifestOperation
     KubernetesCoordinates coordinates = description.getPointCoordinates();
     KubernetesManifest target =
         credentials.get(coordinates.getKind(), coordinates.getNamespace(), coordinates.getName());
+
+    if (target == null) {
+      getTask()
+        .updateStatus(
+          OP_NAME,
+          WordUtils.capitalize("Skipping " + getVerbName()) + " operation for " + coordinates + " because target manifest no longer exists");
+    return null;
+    }
+
     determineLoadBalancers(target).forEach(l -> op(l, target));
 
     getTask()
