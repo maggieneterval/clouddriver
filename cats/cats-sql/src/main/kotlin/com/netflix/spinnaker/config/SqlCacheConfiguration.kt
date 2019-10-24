@@ -14,6 +14,7 @@ import com.netflix.spinnaker.cats.provider.Provider
 import com.netflix.spinnaker.cats.sql.SqlProviderRegistry
 import com.netflix.spinnaker.cats.sql.cache.SpectatorSqlCacheMetrics
 import com.netflix.spinnaker.cats.sql.cache.SqlCacheMetrics
+import com.netflix.spinnaker.cats.sql.cache.SqlCleanupStaleLogicalCachesAgent
 import com.netflix.spinnaker.cats.sql.cache.SqlCleanupStaleOnDemandCachesAgent
 import com.netflix.spinnaker.cats.sql.cache.SqlNamedCacheFactory
 import com.netflix.spinnaker.cats.sql.cache.SqlTableMetricsAgent
@@ -161,11 +162,21 @@ class SqlCacheConfiguration {
 
   @Bean
   @ConditionalOnExpression("\${sql.read-only:false} == false")
+  fun sqlCleanupStaleLogicalCachesAgent(
+    applicationContext: ApplicationContext,
+    registry: Registry,
+    clock: Clock
+  ): SqlCleanupStaleLogicalCachesAgent =
+    SqlCleanupStaleLogicalCachesAgent(applicationContext, registry, clock)
+
+  @Bean
+  @ConditionalOnExpression("\${sql.read-only:false} == false")
   fun sqlAgentProvider(
     sqlTableMetricsAgent: SqlTableMetricsAgent,
-    sqlCleanupStaleOnDemandCachesAgent: SqlCleanupStaleOnDemandCachesAgent
+    sqlCleanupStaleOnDemandCachesAgent: SqlCleanupStaleOnDemandCachesAgent,
+    sqlCleanupStaleLogicalCachesAgent: SqlCleanupStaleLogicalCachesAgent
   ): SqlProvider =
-    SqlProvider(mutableListOf(sqlTableMetricsAgent, sqlCleanupStaleOnDemandCachesAgent))
+    SqlProvider(mutableListOf(sqlTableMetricsAgent, sqlCleanupStaleOnDemandCachesAgent, sqlCleanupStaleLogicalCachesAgent))
 
   @Bean
   fun nodeStatusProvider(eurekaClient: Optional<EurekaClient>): NodeStatusProvider {

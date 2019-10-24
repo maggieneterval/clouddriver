@@ -59,6 +59,8 @@ class SqlCache(
     // 352 * 2 + 64 (max rel_type length) == 768; 768 * 4 (utf8mb4) == 3072 == Aurora's max index length
     private const val MAX_ID_LENGTH = 352
     private const val onDemandType = "onDemand"
+    private const val clustersType = "clusters"
+    private const val applicationsType = "applications"
 
     private val schemaVersion = SqlSchemaVersion.current()
     private val useRegexp = """.*[\?\[].*""".toRegex()
@@ -482,6 +484,29 @@ class SqlCache(
     evictAll(onDemandType, toClean)
 
     return toClean.size
+  }
+
+  fun cleanLogical(maxAgeMs: Long): Int {
+    val clustersToClean = withRetry(RetryCategory.READ) {
+      jooq.select(field("id"))
+        .from(table(resourceTableName(clustersType)))
+        .where(field("last_updated").lt(clock.millis() - maxAgeMs))
+        .fetch()
+        .into(String::class.java)
+    }
+
+    val applicationsToClean = withRetry(RetryCategory.READ) {
+      jooq.select(field("id"))
+        .from(table(resourceTableName(applicationsType)))
+        .where(field("last_updated").lt(clock.millis() - maxAgeMs))
+        .fetch()
+        .into(String::class.java)
+    }
+
+    evictAll(clustersType, clustersToClean)
+    evictAll(applicationsType, applicationsToClean)
+
+    return clustersToClean.size + applicationsToClean.size
   }
 
   private fun storeAuthoritative(
