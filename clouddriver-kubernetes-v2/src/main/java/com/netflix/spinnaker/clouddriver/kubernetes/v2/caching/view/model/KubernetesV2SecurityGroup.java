@@ -126,6 +126,7 @@ public class KubernetesV2SecurityGroup extends ManifestBasedModel implements Sec
         .map(V1NetworkPolicyIngressRule::getPorts)
         .filter(Objects::nonNull)
         .flatMap(Collection::stream)
+        .filter(Objects::nonNull)
         .map(KubernetesV2SecurityGroup::fromPolicyPort)
         .collect(Collectors.toSet());
   }
@@ -138,6 +139,7 @@ public class KubernetesV2SecurityGroup extends ManifestBasedModel implements Sec
         .map(V1NetworkPolicyEgressRule::getPorts)
         .filter(Objects::nonNull)
         .flatMap(Collection::stream)
+        .filter(Objects::nonNull)
         .map(KubernetesV2SecurityGroup::fromPolicyPort)
         .collect(Collectors.toSet());
   }
