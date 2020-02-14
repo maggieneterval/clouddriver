@@ -3,6 +3,7 @@ dependencies {
 
   implementation "com.squareup.okhttp:okhttp"
   implementation "com.squareup.retrofit:retrofit"
+  implementation "com.netflix.spinnaker.kork:kork-exceptions"
   implementation "org.codehaus.groovy:groovy-all"
   implementation "org.springframework.boot:spring-boot-starter-web"
 

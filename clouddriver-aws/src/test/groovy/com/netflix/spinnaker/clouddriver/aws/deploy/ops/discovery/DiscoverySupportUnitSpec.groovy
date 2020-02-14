@@ -31,6 +31,7 @@ import com.netflix.spinnaker.clouddriver.data.task.TaskState
 import com.netflix.spinnaker.clouddriver.eureka.api.Eureka
 import com.netflix.spinnaker.clouddriver.eureka.deploy.ops.AbstractEurekaSupport
 import com.netflix.spinnaker.clouddriver.eureka.deploy.ops.EurekaSupportConfigurationProperties
+import com.netflix.spinnaker.clouddriver.exceptions.SpinnakerNetworkException
 import com.netflix.spinnaker.clouddriver.model.ClusterProvider
 import com.netflix.spinnaker.clouddriver.model.ServerGroup
 import com.netflix.spinnaker.clouddriver.aws.TestCredential
@@ -347,7 +348,7 @@ class DiscoverySupportUnitSpec extends Specification {
       throw httpError(404)
     }
     0 * task.fail()
-    thrown(RetrofitError)
+    thrown(SpinnakerNetworkException)
 
     where:
     discoveryUrl = "http://us-west-1.discovery.netflix.net"
@@ -550,8 +551,8 @@ class DiscoverySupportUnitSpec extends Specification {
     )
   }
 
-  private static RetrofitError httpError(int code) {
-    RetrofitError.httpError('http://foo', response(code), null, Map)
+  private static SpinnakerNetworkException httpError(int code) {
+    return new SpinnakerNetworkException(RetrofitError.httpError('http://foo', response(code), null, Map))
   }
 
   private static Response response(int code) {
