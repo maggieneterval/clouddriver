@@ -21,14 +21,16 @@ import com.netflix.spinnaker.clouddriver.data.task.Task;
 import com.netflix.spinnaker.clouddriver.data.task.TaskRepository;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.KubernetesCoordinates;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.KubernetesResourceProperties;
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesManifest;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesUndoRolloutManifestDescription;
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.OperationResult;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.CanUndoRollout;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.KubernetesHandler;
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.security.KubernetesV2Credentials;
 import com.netflix.spinnaker.clouddriver.orchestration.AtomicOperation;
 import java.util.List;
 
-public class KubernetesUndoRolloutManifestOperation implements AtomicOperation<Void> {
+public class KubernetesUndoRolloutManifestOperation implements AtomicOperation<OperationResult> {
   private final KubernetesUndoRolloutManifestDescription description;
   private final KubernetesV2Credentials credentials;
   private static final String OP_NAME = "UNDO_ROLLOUT_KUBERNETES_MANIFEST";
@@ -44,7 +46,7 @@ public class KubernetesUndoRolloutManifestOperation implements AtomicOperation<V
   }
 
   @Override
-  public Void operate(List priorOutputs) {
+  public OperationResult operate(List priorOutputs) {
     getTask().updateStatus(OP_NAME, "Starting undo rollout operation...");
     KubernetesCoordinates coordinates = description.getPointCoordinates();
 
@@ -86,6 +88,10 @@ public class KubernetesUndoRolloutManifestOperation implements AtomicOperation<V
     canUndoRollout.undoRollout(
         credentials, coordinates.getNamespace(), coordinates.getName(), revision);
 
-    return null;
+    KubernetesManifest manifest =
+        credentials.get(coordinates.getKind(), coordinates.getNamespace(), coordinates.getName());
+    OperationResult result = new OperationResult();
+    result.addManifest(manifest);
+    return result;
   }
 }
