@@ -163,7 +163,7 @@ class GoogleHealthCheckCachingAgent extends AbstractGoogleCachingAgent {
       switch(hc.getType()) {
         case 'HTTP':
           newHC.healthCheckType = GoogleHealthCheck.HealthCheckType.HTTP
-          newHC.port = hc.getHttpHealthCheck().getPort()
+          newHC.port = null
           newHC.requestPath = hc.getHttpHealthCheck().getRequestPath()
           break
         case 'HTTPS':
