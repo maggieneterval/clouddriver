@@ -228,3 +228,14 @@ databaseChangeLog:
         columns:
         - column:
             name: application
+- changeSet:
+    id: add-data-type-column
+    author: mneterval
+    changes:
+    - addColumn:
+        tableName: cats_v1_rel_template
+        columns:
+        - column:
+            name: data_type
+            type: varchar(255)
+            afterColumn: rel_agent
