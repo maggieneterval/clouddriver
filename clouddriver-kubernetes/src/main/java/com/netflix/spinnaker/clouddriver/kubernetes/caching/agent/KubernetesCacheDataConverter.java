@@ -31,8 +31,9 @@ import com.netflix.spinnaker.cats.cache.DefaultCacheData;
 import com.netflix.spinnaker.clouddriver.kubernetes.caching.Keys;
 import com.netflix.spinnaker.clouddriver.kubernetes.caching.Keys.CacheKey;
 import com.netflix.spinnaker.clouddriver.kubernetes.caching.Keys.ClusterCacheKey;
+import com.netflix.spinnaker.clouddriver.kubernetes.description.KubernetesSpinnakerKindMap;
+import com.netflix.spinnaker.clouddriver.kubernetes.description.SpinnakerKind;
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesKind;
-import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesKindProperties;
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesManifest;
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesManifest.OwnerReference;
 import com.netflix.spinnaker.kork.annotations.NonnullByDefault;
@@ -94,7 +95,7 @@ public class KubernetesCacheDataConverter {
   public static void convertAsResource(
       KubernetesCacheData kubernetesCacheData,
       String account,
-      KubernetesKindProperties kindProperties,
+      KubernetesSpinnakerKindMap kindMap,
       Namer<KubernetesManifest> namer,
       KubernetesManifest manifest,
       List<KubernetesManifest> resourceRelationships) {
@@ -117,9 +118,9 @@ public class KubernetesCacheDataConverter {
     Keys.CacheKey key = new Keys.InfrastructureCacheKey(kind, account, namespace, name);
     kubernetesCacheData.addItem(key, attributes);
 
-    if (kindProperties.hasLogicalRelationship() && !Strings.isNullOrEmpty(moniker.getApp())) {
-      addLogicalRelationships(
-          kubernetesCacheData, key, account, moniker, kindProperties.hasClusterRelationship());
+    SpinnakerKind spinnakerKind = kindMap.translateKubernetesKind(kind);
+    if (spinnakerKind.hasLogicalRelationship() && !Strings.isNullOrEmpty(moniker.getApp())) {
+      addLogicalRelationships(kubernetesCacheData, key, account, moniker, spinnakerKind);
     }
     kubernetesCacheData.addRelationships(
         key, ownerReferenceRelationships(account, namespace, manifest.getOwnerReferences()));
@@ -149,13 +150,13 @@ public class KubernetesCacheDataConverter {
       Keys.CacheKey infrastructureKey,
       String account,
       Moniker moniker,
-      boolean hasClusterRelationship) {
+      SpinnakerKind spinnakerKind) {
     String application = moniker.getApp();
     Keys.CacheKey applicationKey = new Keys.ApplicationCacheKey(application);
     kubernetesCacheData.addRelationship(infrastructureKey, applicationKey);
 
     String cluster = moniker.getCluster();
-    if (hasClusterRelationship && !Strings.isNullOrEmpty(cluster)) {
+    if (spinnakerKind.hasClusterRelationship() && !Strings.isNullOrEmpty(cluster)) {
       CacheKey clusterKey = new ClusterCacheKey(account, application, cluster);
       kubernetesCacheData.addRelationship(infrastructureKey, clusterKey);
       kubernetesCacheData.addRelationship(applicationKey, clusterKey);

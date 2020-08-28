@@ -21,18 +21,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
 
 public enum SpinnakerKind {
-  INSTANCES("instances"),
-  CONFIGS("configs"),
-  SERVER_GROUPS("serverGroups"),
-  LOAD_BALANCERS("loadBalancers"),
-  SECURITY_GROUPS("securityGroups"),
-  SERVER_GROUP_MANAGERS("serverGroupManagers"),
-  UNCLASSIFIED("unclassified");
+  INSTANCES("instances", false, false),
+  CONFIGS("configs", false, false),
+  SERVER_GROUPS("serverGroups", true, false),
+  LOAD_BALANCERS("loadBalancers", false, true),
+  SECURITY_GROUPS("securityGroups", false, true),
+  SERVER_GROUP_MANAGERS("serverGroupManagers", true, true),
+  UNCLASSIFIED("unclassified", false, false);
 
   private final String id;
+  private final boolean hasClusterRelationship;
+  private final boolean hasLogicalRelationship;
 
-  SpinnakerKind(String id) {
+  SpinnakerKind(String id, boolean hasClusterRelationship, boolean hasLogicalRelationship) {
     this.id = id;
+    // Whether the kind belongs to a Spinnaker cluster
+    this.hasClusterRelationship = hasClusterRelationship;
+    // Whether the kind is surfaced in the Spinnaker application UI
+    this.hasLogicalRelationship = hasLogicalRelationship;
   }
 
   @Override
@@ -46,5 +52,13 @@ public enum SpinnakerKind {
         .filter(k -> k.toString().equalsIgnoreCase(name))
         .findFirst()
         .orElse(UNCLASSIFIED);
+  }
+
+  public boolean hasClusterRelationship() {
+    return this.hasClusterRelationship;
+  }
+
+  public boolean hasLogicalRelationship() {
+    return this.hasLogicalRelationship;
   }
 }
