@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import lombok.Getter;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,15 +42,35 @@ import org.slf4j.LoggerFactory;
 public final class KubernetesV2LoadBalancer
     implements KubernetesResource, LoadBalancer, LoadBalancerProvider.Details {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2LoadBalancer.class);
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<LoadBalancerServerGroup> serverGroups;
+
+  @Getter(onMethod = @__({@Override}))
   private final String account;
+
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final String displayName;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesApiVersion apiVersion;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesKind kind;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, String> labels;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final Long createdTime;
 
   private KubernetesV2LoadBalancer(

@@ -28,8 +28,11 @@ import lombok.Getter;
 
 @NonnullByDefault
 final class KubernetesV2ImageSummary implements ImageSummary {
-  @Getter private final String serverGroupName;
-  @Getter private final ImmutableMap<String, Object> buildInfo;
+  @Getter(onMethod = @__({@Override}))
+  private final String serverGroupName;
+
+  @Getter(onMethod = @__({@Override}))
+  private final ImmutableMap<String, Object> buildInfo;
 
   @Builder
   KubernetesV2ImageSummary(

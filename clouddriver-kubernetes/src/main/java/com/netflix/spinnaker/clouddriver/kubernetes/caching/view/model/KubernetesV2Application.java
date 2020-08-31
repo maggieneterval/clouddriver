@@ -21,11 +21,15 @@ import com.google.common.collect.ImmutableMap;
 import com.netflix.spinnaker.clouddriver.model.Application;
 import java.util.Map;
 import java.util.Set;
+import lombok.Getter;
 import lombok.Value;
 
 @Value
 public final class KubernetesV2Application implements Application {
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, Set<String>> clusterNames;
 
   @Override

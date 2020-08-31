@@ -20,16 +20,24 @@ package com.netflix.spinnaker.clouddriver.kubernetes.caching.view.model;
 import com.netflix.spinnaker.clouddriver.model.ServerGroupSummary;
 import com.netflix.spinnaker.moniker.Moniker;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 @Builder
 @Value
 public final class KubernetesV2ServerGroupSummary implements ServerGroupSummary {
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String account;
+
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
 
+  @Override
   public String getRegion() {
     return namespace;
   }

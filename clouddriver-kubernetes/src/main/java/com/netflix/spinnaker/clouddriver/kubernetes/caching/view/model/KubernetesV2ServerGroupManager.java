@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.Getter;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,15 +42,34 @@ public final class KubernetesV2ServerGroupManager
     implements KubernetesResource, ServerGroupManager {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2ServerGroupManager.class);
   // private final KubernetesManifest manifest;
+  @Getter(onMethod = @__({@Override}))
   private final String account;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<KubernetesV2ServerGroupSummary> serverGroups;
+
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final String displayName;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesApiVersion apiVersion;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesKind kind;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, String> labels;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final Long createdTime;
 
   private KubernetesV2ServerGroupManager(

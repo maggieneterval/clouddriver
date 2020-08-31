@@ -52,6 +52,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Null;
+import lombok.Getter;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,23 +61,54 @@ import org.slf4j.LoggerFactory;
 public final class KubernetesV2ServerGroup implements KubernetesResource, ServerGroup {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2ServerGroup.class);
   private final boolean disabled;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<KubernetesV2Instance> instances;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<String> loadBalancers;
+
+  @Getter(onMethod = @__({@Override}))
   private final List<ServerGroupManagerSummary> serverGroupManagers;
+
+  @Getter(onMethod = @__({@Override}))
   private final Capacity capacity;
+
   private final String account;
+
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final String displayName;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesApiVersion apiVersion;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesKind kind;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, String> labels;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final Long createdTime;
+
   private final ImmutableMap<String, ImmutableList<String>> buildInfo;
 
+  @Getter(onMethod = @__({@Override}))
   private final Set<String> zones = ImmutableSet.of();
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<String> securityGroups = ImmutableSet.of();
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, Object> launchConfig = ImmutableMap.of();
 
   @JsonIgnore

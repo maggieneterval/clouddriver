@@ -43,7 +43,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class KubernetesV2JobProvider implements JobProvider<KubernetesV2JobStatus> {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2JobProvider.class);
-  @Getter private final String platform = "kubernetes";
+
+  @Getter(onMethod = @__({@Override}))
+  private final String platform = "kubernetes";
+
   private final AccountCredentialsProvider accountCredentialsProvider;
   private final KubernetesManifestProvider manifestProvider;
 

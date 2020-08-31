@@ -185,10 +185,11 @@ public class Keys {
   }
 
   @EqualsAndHashCode(callSuper = true)
-  @Getter
   @RequiredArgsConstructor
   public static class ApplicationCacheKey extends LogicalKey {
     private static final LogicalKind logicalKind = LogicalKind.APPLICATIONS;
+
+    @Getter(onMethod = @__({@Override}))
     private final String name;
 
     protected ApplicationCacheKey(String[] parts) {
@@ -215,12 +216,13 @@ public class Keys {
   }
 
   @EqualsAndHashCode(callSuper = true)
-  @Getter
   @RequiredArgsConstructor
   public static class ClusterCacheKey extends LogicalKey {
     private static final LogicalKind logicalKind = LogicalKind.CLUSTERS;
-    private final String account;
-    private final String application;
+    @Getter private final String account;
+    @Getter private final String application;
+
+    @Getter(onMethod = @__({@Override}))
     private final String name;
 
     public ClusterCacheKey(String[] parts) {
@@ -249,13 +251,14 @@ public class Keys {
   }
 
   @EqualsAndHashCode(callSuper = true)
-  @Getter
   @RequiredArgsConstructor
   public static class InfrastructureCacheKey extends CacheKey {
     @Getter private static final Kind kind = Kind.INFRASTRUCTURE;
-    private final KubernetesKind kubernetesKind;
-    private final String account;
-    private final String namespace;
+    @Getter private final KubernetesKind kubernetesKind;
+    @Getter private final String account;
+    @Getter private final String namespace;
+
+    @Getter(onMethod = @__({@Override}))
     private final String name;
 
     protected InfrastructureCacheKey(String[] parts) {

@@ -29,18 +29,34 @@ import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodStatus;
 import java.util.*;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class KubernetesV2JobStatus implements JobStatus {
 
+  @Getter(onMethod = @__({@Override}))
   String name;
+
   String cluster;
+
+  @Getter(onMethod = @__({@Override}))
   String account;
+
+  @Getter(onMethod = @__({@Override}))
   String id;
+
+  @Getter(onMethod = @__({@Override}))
   String location;
+
+  @Getter(onMethod = @__({@Override}))
   String provider = "kubernetes";
+
+  @Getter(onMethod = @__({@Override}))
   Long createdTime;
+
+  @Getter(onMethod = @__({@Override}))
   Long completedTime;
+
   String message;
   String reason;
   Integer exitCode;

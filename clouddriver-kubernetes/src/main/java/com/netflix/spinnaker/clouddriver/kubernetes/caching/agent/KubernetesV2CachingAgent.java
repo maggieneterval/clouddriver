@@ -59,7 +59,10 @@ public abstract class KubernetesV2CachingAgent
     implements AgentIntervalAware, CachingAgent, AccountAware {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2CachingAgent.class);
 
-  @Getter @Nonnull protected final String accountName;
+  @Getter(onMethod = @__({@Override}))
+  @Nonnull
+  protected final String accountName;
+
   protected final Registry registry;
   protected final KubernetesCredentials credentials;
   protected final ObjectMapper objectMapper;
@@ -68,9 +71,11 @@ public abstract class KubernetesV2CachingAgent
   protected final int agentCount;
   protected KubectlJobExecutor jobExecutor;
 
-  @Getter protected String providerName = KubernetesCloudProvider.ID;
+  @Getter(onMethod = @__({@Override}))
+  protected String providerName = KubernetesCloudProvider.ID;
 
-  @Getter protected final Long agentInterval;
+  @Getter(onMethod = @__({@Override}))
+  protected final Long agentInterval;
 
   protected KubernetesV2CachingAgent(
       KubernetesNamedAccountCredentials namedAccountCredentials,

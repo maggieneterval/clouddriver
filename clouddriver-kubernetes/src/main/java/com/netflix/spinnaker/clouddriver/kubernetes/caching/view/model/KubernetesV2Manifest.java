@@ -27,20 +27,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 @Value
 @Builder
 public class KubernetesV2Manifest implements Manifest {
+  @Getter(onMethod = @__({@Override}))
   private final String account;
+
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String location;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
   private final KubernetesManifest manifest;
+
+  @Getter(onMethod = @__({@Override}))
   private final Status status;
+
   @Builder.Default private final Set<Artifact> artifacts = new HashSet<>();
   @Builder.Default private final List<KubernetesManifest> events = new ArrayList<>();
-  @Builder.Default private final List<Warning> warnings = new ArrayList<>();
+
+  @Getter(onMethod = @__({@Override}))
+  @Builder.Default
+  private final List<Warning> warnings = new ArrayList<>();
 
   @Builder.Default
   private final List<KubernetesPodMetric.ContainerMetric> metrics = new ArrayList<>();

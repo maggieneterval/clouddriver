@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Null;
+import lombok.Getter;
 import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,19 +45,38 @@ import org.slf4j.LoggerFactory;
 @Value
 public final class KubernetesV2Instance implements Instance, KubernetesResource {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2Instance.class);
+
+  @Getter(onMethod = @__({@Override}))
   private final List<Map<String, Object>> health;
+
   private final String account;
   // An implementor of the Instance interface is implicitly expected to return a globally-unique ID
   // as its name because InstanceViewModel serializes it as such for API responses and Deck then
   // relies on it to disambiguate between instances.
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final String humanReadableName;
+
+  @Getter(onMethod = @__({@Override}))
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final String displayName;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesApiVersion apiVersion;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesKind kind;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, String> labels;
+
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final Long createdTime;
 
   @Null

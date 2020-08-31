@@ -29,28 +29,39 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-@Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ParametersAreNonnullByDefault
 public class KubernetesNamedAccountCredentials
     extends AbstractAccountCredentials<KubernetesCredentials> {
+  @Getter(onMethod = @__({@Override}))
   private final String cloudProvider = "kubernetes";
 
-  @Nonnull @Include private final String name;
+  @Getter(onMethod = @__({@Override}))
+  @Nonnull
+  @Include
+  private final String name;
 
-  @Include private final String environment;
+  @Getter(onMethod = @__({@Override}))
+  @Include
+  private final String environment;
 
-  @Include private final String accountType;
+  @Getter(onMethod = @__({@Override}))
+  @Include
+  private final String accountType;
 
-  @Include private final int cacheThreads;
+  @Getter @Include private final int cacheThreads;
 
-  @Include private final KubernetesCredentials credentials;
+  @Getter(onMethod = @__({@Override}))
+  @Include
+  private final KubernetesCredentials credentials;
 
   @Include private final List<String> requiredGroupMembership;
 
-  @Include private final Permissions permissions;
+  @Getter(onMethod = @__({@Override}))
+  @Include
+  private final Permissions permissions;
 
-  @Include private final Long cacheIntervalSeconds;
+  @Getter @Include private final Long cacheIntervalSeconds;
 
   public KubernetesNamedAccountCredentials(
       ManagedAccount managedAccount, KubernetesCredentials.Factory credentialFactory) {

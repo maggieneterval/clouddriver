@@ -49,7 +49,9 @@ import org.slf4j.LoggerFactory;
 public abstract class KubernetesV2OnDemandCachingAgent extends KubernetesV2CachingAgent
     implements OnDemandAgent {
   private static final Logger log = LoggerFactory.getLogger(KubernetesV2OnDemandCachingAgent.class);
-  @Getter protected final OnDemandMetricsSupport metricsSupport;
+
+  @Getter(onMethod = @__({@Override}))
+  protected final OnDemandMetricsSupport metricsSupport;
 
   protected static final String ON_DEMAND_TYPE = "onDemand";
   private static final String CACHE_TIME_KEY = "cacheTime";

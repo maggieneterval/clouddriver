@@ -26,12 +26,14 @@ import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class KubernetesV2Provider extends AgentSchedulerAware implements Provider {
   public static final String PROVIDER_NAME = KubernetesCloudProvider.ID;
 
+  @Getter(onMethod = @__({@Override}))
   private Collection<Agent> agents = emptyAgentCollection();
 
   private Collection<Agent> stagedAgents = emptyAgentCollection();

@@ -53,6 +53,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 import org.slf4j.Logger;
@@ -65,16 +66,35 @@ public final class KubernetesV2SecurityGroup implements KubernetesResource, Secu
       ImmutableSet.of(EXTENSIONS_V1BETA1, NETWORKING_K8S_IO_V1BETA1, NETWORKING_K8S_IO_V1);
 
   private final String account;
+
+  @Getter(onMethod = @__({@Override}))
   private final String id;
+
+  @Getter(onMethod = @__({@Override}))
   private final String namespace;
+
+  @Getter(onMethod = @__({@Override}))
   private final String displayName;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesApiVersion apiVersion;
+
+  @Getter(onMethod = @__({@Override}))
   private final KubernetesKind kind;
+
+  @Getter(onMethod = @__({@Override}))
   private final Map<String, String> labels;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final Long createdTime;
 
+  @Getter(onMethod = @__({@Override}))
   private final Set<Rule> inboundRules;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<Rule> outboundRules;
 
   @Override
@@ -198,14 +218,22 @@ public final class KubernetesV2SecurityGroup implements KubernetesResource, Secu
   @AllArgsConstructor
   @Builder
   private static class KubernetesV2SecurityGroupSummary implements SecurityGroupSummary {
+    @Getter(onMethod = @__({@Override}))
     private String name;
+
+    @Getter(onMethod = @__({@Override}))
     private String id;
   }
 
   @Data
   private static class PortRule implements Rule {
-    @Nullable private SortedSet<PortRange> portRanges;
-    @Nullable private String protocol;
+    @Getter(onMethod = @__({@Override}))
+    @Nullable
+    private SortedSet<PortRange> portRanges;
+
+    @Getter(onMethod = @__({@Override}))
+    @Nullable
+    private String protocol;
   }
 
   @EqualsAndHashCode(callSuper = true)

@@ -25,16 +25,29 @@ import com.netflix.spinnaker.moniker.Moniker;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Getter;
 import lombok.Value;
 
 @Value
 public final class KubernetesV2Cluster implements Cluster {
+  @Getter(onMethod = @__({@Override}))
   private final String name;
+
+  @Getter(onMethod = @__({@Override}))
   private final Moniker moniker;
+
+  @Getter(onMethod = @__({@Override}))
   private final String type = KubernetesCloudProvider.ID;
+
+  @Getter(onMethod = @__({@Override}))
   private final String accountName;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<KubernetesV2ServerGroup> serverGroups;
+
+  @Getter(onMethod = @__({@Override}))
   private final Set<KubernetesV2LoadBalancer> loadBalancers;
+
   private final String application;
 
   public KubernetesV2Cluster(String rawKey) {
