@@ -24,16 +24,19 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
 public class OperationResult {
-  private Map<String, Set<String>> manifestNamesByNamespace = new HashMap<>();
-  private Set<KubernetesManifest> manifests = new HashSet<>();
-  private Set<Artifact> createdArtifacts = new HashSet<>();
-  private Set<Artifact> boundArtifacts = new HashSet<>();
+  @Getter @Setter private Map<String, Set<String>> manifestNamesByNamespace = new HashMap<>();
+
+  @Getter @Setter private Set<KubernetesManifest> manifests = new HashSet<>();
+
+  @Getter @Setter private Set<Artifact> createdArtifacts = new HashSet<>();
+
+  @Getter @Setter private Set<Artifact> boundArtifacts = new HashSet<>();
+
+  public OperationResult() {}
 
   public void removeSensitiveKeys(ResourcePropertyRegistry propertyRegistry) {
     manifests.forEach(m -> propertyRegistry.get(m.getKind()).getHandler().removeSensitiveKeys(m));
